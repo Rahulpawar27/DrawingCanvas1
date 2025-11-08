@@ -1,0 +1,541 @@
+:root {
+  /* from your palette */
+  --bg: linear-gradient(135deg, #ff61d2 0%, #fe9090 25%, #9d79ff 70%, #00c9ff 100%);
+  --panel: rgba(255, 255, 255, 0.25);
+  --glass: rgba(255, 255, 255, 0.30);
+  --accent: #6a00ff;
+  --accent2: #00b3ff;
+  --text: #1a1a1a;
+  --text-light: #ffffff;
+  --muted: #555;
+  --danger: #ff3b3b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, .app-root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-root {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 22px;
+  width: 95%;
+  height: 95%;
+  padding: 16px;
+}
+
+.glass {
+  background: var(--panel);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.20);
+}
+
+/* === Users Panel === */
+.users-panel {
+  padding: 20px;
+}
+.users-panel h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: var(--accent);
+}
+.users-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.users-panel li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.40);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.users-panel li:hover {
+  background: rgba(255, 255, 255, 0.60);
+  transform: translateX(4px);
+}
+.users-panel .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+.users-panel .hint {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* === Toolbar === */
+.canvas-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  gap: 12px;
+}
+.tools {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tool-btn, .action-btn {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.60);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.05), 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.tool-btn.active {
+  background: linear-gradient(135deg, #ff61d2, var(--accent));
+  border-color: var(--accent2);
+  color: var(--text-light);
+  box-shadow: 0 0 12px rgba(255, 97, 210, 0.40);
+}
+
+.tool-btn:hover, .action-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.70);
+}
+
+.action-btn.danger {
+  border-color: rgba(255, 59, 59, 0.70);
+  color: #ffffff;
+  background: var(--danger);
+}
+/* === Color Picker === */
+.picker input {
+  width: 36px;
+  height: 28px;
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  background: var(--text-light);
+  cursor: pointer;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.picker input::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
+}
+
+.picker input::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+
+/* === Slider and Size Buttons === */
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.60);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+}
+
+.size-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  background: transparent;
+}
+
+/* Range slider itself */
+.slider input {
+  width: 140px;
+  height: 6px;
+  cursor: pointer;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+.slider input::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--thumb-color, var(--accent2));
+  cursor: grab;
+  transition: background 0.2s ease, transform 0.2s ease;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.slider input::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+
+/* + and − buttons */
+.size-btn {
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--text);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  pointer-events: auto;
+}
+
+.size-btn:hover {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.size-btn:active {
+  transform: scale(0.95);
+}
+
+/* Prevent both buttons lighting up together */
+.size-btn:hover ~ .size-btn,
+.size-btn:hover {
+  z-index: 2;
+}
+
+
+/* === Canvas Stage === */
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 420px;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.10);
+}
+#canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 18px;
+  /* light canvas like screenshot */
+  background: linear-gradient(160deg, #ffffff, #f2f6ff);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+}
+
+/* === Cursors === */
+.cursors {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cursor {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--accent2);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.30);
+}
+.cursor .badge {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.60);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+}
+
+/* === Status Footer === */
+.status {
+  display: flex;
+  gap: 18px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 13px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.40);
+  border-radius: 12px;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.06);
+}
+
+/* === Responsive === */
+@media (max-width: 900px) {
+  .app-root {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+  .users-panel {
+    order: 2;
+  }
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* === Brush Dropdown for Pen Types === */
+.brush-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.pen-menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  backdrop-filter: blur(12px);
+  z-index: 20;
+  overflow: hidden;
+  min-width: 160px;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Hidden state (for toggle) */
+.pen-menu.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+.pen-option {
+  border: none;
+  background: transparent;
+  padding: 8px 14px;
+  color: var(--text);
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.1s ease;
+}
+
+.pen-option:hover {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  transform: scale(1.03);
+}
+
+/* Brush button arrow looks nice */
+#brush-btn::after {
+  content: " ▾";
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Slight hover effect for brush */
+#brush-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px);
+}
+
+/* Keep dropdown above other elements */
+.toolbar {
+  position: relative;
+  z-index: 10;
+}
+.text-box {
+  position: absolute;
+  padding: 2px 4px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  min-width: 40px;
+  max-width: 400px;
+  color: #222;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: text;
+  user-select: text;
+}
+
+
+/* collapsed state applied to .app-root */
+.app-root.sidebar-collapsed {
+  grid-template-columns: 64px 1fr !important; /* narrow left column like ChatGPT */
+}
+
+/* shift aside content into a compact vertical bar */
+.app-root.sidebar-collapsed .users-panel {
+  width: 64px;
+  padding: 12px 8px;
+  overflow: visible;
+  border-radius: 12px;
+}
+
+/* hide text inside the collapsed users-panel but keep dot visible */
+.app-root.sidebar-collapsed .users-panel h2,
+.app-root.sidebar-collapsed .users-panel .hint,
+.app-root.sidebar-collapsed .users-panel li > span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity .18s ease, transform .18s ease;
+  pointer-events: none;
+}
+
+/* keep the colored dot visible and centered */
+.app-root.sidebar-collapsed .users-panel .dot {
+  margin: 6px auto;
+  display: block;
+  box-shadow: 0 0 12px currentColor;
+}
+
+/* make the aside visually compact while still showing border/shape */
+.app-root.sidebar-collapsed .users-panel {
+  background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border-radius: 12px;
+}
+
+/* style for the toggle button so it looks good on bright gradient */
+#sidebar-toggle {
+  background: rgba(255,255,255,0.07);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .18s ease, background .18s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+#sidebar-toggle:hover { transform: scale(1.02); background: rgba(255,255,255,0.12); }
+
+/* rotate the icon when collapsed to visually indicate state */
+.app-root.sidebar-collapsed #sidebar-toggle-icon { transform: rotate(90deg); transition: transform .18s ease; }
+
+/* Make panel slide smoothly when toggling (works with grid change) */
+.app-root, .app-root > aside, .app-root > main {
+  transition: grid-template-columns .22s ease, transform .22s ease;
+}
+
+/* Optional: show full panel while mouse near left edge when collapsed */
+.app-root.sidebar-collapsed.sidebar-hover-expanded {
+  grid-template-columns: 260px 1fr !important;
+}
+.app-root.sidebar-collapsed.sidebar-hover-expanded .users-panel h2,
+.app-root.sidebar-collapsed.sidebar-hover-expanded .users-panel .hint,
+.app-root.sidebar-collapsed.sidebar-hover-expanded .users-panel li > span:nth-child(2) {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+
+/* === Fully hide sidebar contents but keep toggle visible === */
+.app-root.sidebar-collapsed .users-panel {
+  overflow: hidden;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Hide all inner content EXCEPT the toggle button */
+.app-root.sidebar-collapsed .users-panel > *:not(#sidebar-toggle) {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Keep the toggle button always visible */
+#sidebar-toggle {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+/* Smooth transitions for everything */
+.users-panel,
+.users-panel * {
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.4s ease;
+}
+
+/* Prevent ghost area background */
+.app-root.sidebar-collapsed .users-panel {
+  background: none !important;
+}
+/* === Export Dropdown Menu === */
+.export-menu {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  display: flex;
+  flex-direction: column;
+  background: var(--glass);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(12px);
+  z-index: 50;
+  overflow: hidden;
+  min-width: 180px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.export-menu.hidden {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+.export-option {
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  color: var(--text);
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.export-option:hover {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+}
