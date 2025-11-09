@@ -83,7 +83,7 @@ To demonstrate end-to-end full-stack capability by building a **multi-user, real
 ## 📦 Deployment
 
 - 🌐 **Deployed on Render** (supports WebSockets)  
-- **Live Demo:** [https://your-app-name.onrender.com]()  
-- **GitHub Repo:** [https://github.com/yourusername/collaborative-canvas]()
+- **Live Demo:** [https://your-app-name.onrender.com](https://drawingcanvas1.onrender.com)  
+- **GitHub Repo:** [https://github.com/yourusername/collaborative-canvas](https://github.com/Rahulpawar27/DrawingCanvas1)
 
 
