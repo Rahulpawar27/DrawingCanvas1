@@ -42,7 +42,7 @@ To demonstrate end-to-end full-stack capability by building a **multi-user, real
 | 🧭 **Cursors** | Real-time remote cursor tracking |
 | 📄 **Export Options** | Save canvas as PNG, JPEG, or PDF |
 | 🖨 **Print Feature** | Directly print the current canvas |
-| 🧩 **Sidebar Animation** | Expand/collapse like ChatGPT’s sidebar for users list |
+| 🧩 **Sidebar Animation** | Expand/collapse sidebar for users list |
 | 📊 **Performance Metrics** | FPS counter, latency, and operation count display |
 
 ---
